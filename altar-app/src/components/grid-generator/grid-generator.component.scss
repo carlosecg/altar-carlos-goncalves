@@ -1,0 +1,25 @@
+table {
+    border-collapse: collapse;
+}
+
+tr {
+    
+}
+
+td {
+    border: 1px solid gray;
+    vertical-align: middle;
+    text-align: center;
+    height: 60px;
+    width: 60px;
+
+    &:first-child {
+        border: none;
+    }
+}
+
+.grid-letter-counter {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
