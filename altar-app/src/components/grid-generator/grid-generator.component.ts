@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 @Component({
   selector: 'app-grid-generator',
   templateUrl: './grid-generator.component.html',
@@ -9,14 +8,15 @@ export class GridGeneratorComponent implements OnInit {
   
   public grid: string[][] = [];
   public randomCharsGenerated: Record<string, number> = {}; 
-
   public alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
   constructor(){}
 
   ngOnInit(): void {
 
-    setInterval(() => {
+    setTimeout(() => {
       this.generateRandomChars();
+      this.getCoordinatesBySystemClock();
     }, 1000);
 
   }
@@ -34,6 +34,28 @@ export class GridGeneratorComponent implements OnInit {
       }
       this.grid.push(rowOfAlpha);
     }
+  }
+
+  getCoordinatesBySystemClock() {
+
+    const utcDateSeconds = new Date().getUTCSeconds();
+    const utcDateSecondsFormatted = utcDateSeconds < 10 ? `0${utcDateSeconds}` : utcDateSeconds;
+    const coordinates: number[][] = [];
+    const firstCoordinate = parseInt(utcDateSecondsFormatted.toString().charAt(0)); 
+    const secondCoordinate = parseInt(utcDateSecondsFormatted.toString().charAt(1)); 
+    coordinates.push([firstCoordinate, secondCoordinate]);
+    coordinates.push([secondCoordinate, firstCoordinate]);
+    console.log(utcDateSecondsFormatted);
+    console.log(coordinates);
+
+    console.log(this.grid);
+    
+    console.log('first', this.grid[coordinates[0][1]][coordinates[0][0]]);
+    console.log('second', this.grid[coordinates[1][1]][coordinates[1][0]]);
+    console.log(this.randomCharsGenerated[this.grid[coordinates[0][1]][coordinates[0][0]]]);
+    console.log(this.randomCharsGenerated[this.grid[coordinates[1][1]][coordinates[1][0]]]);
+    
+    
   }
   
 }

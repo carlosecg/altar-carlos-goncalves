@@ -1,9 +1,11 @@
-table {
-    border-collapse: collapse;
+.grid-generator-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
 }
 
-tr {
-    
+table {
+    border-collapse: collapse;
 }
 
 td {
@@ -13,6 +15,7 @@ td {
     height: 60px;
     width: 60px;
 
+    /* Remove if Y indicators get deleted */
     &:first-child {
         border: none;
     }
