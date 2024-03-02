@@ -1,61 +1,75 @@
 import { Component, OnInit } from '@angular/core';
+import { WebsocketService } from '../../services/websocket.service';
 @Component({
   selector: 'app-grid-generator',
   templateUrl: './grid-generator.component.html',
-  styleUrl: './grid-generator.component.scss'
+  styleUrl: './grid-generator.component.scss',
 })
 export class GridGeneratorComponent implements OnInit {
-  
+  public biasChar!: string;
   public grid: string[][] = [];
-  public randomCharsGenerated: Record<string, number> = {}; 
+  public liveCode!: string;
+  public serverMessages: string[] = [];
+  /* This Record is used to facilitate the counting of each letter displayed on the grid - ex: ['A'] = 5 */
+  public numOfCharsGenerated: Record<string, number> = {};
   public alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  public gridRefreshInterval!: any;
 
-  constructor(){}
+  constructor(private socketService: WebsocketService) {}
 
   ngOnInit(): void {
-
-    setTimeout(() => {
-      this.generateRandomChars();
-      this.getCoordinatesBySystemClock();
-    }, 1000);
-
+    this.generateDefaultTable();
+    this.socketService.connect();
+    this.socketService.socketMessage.subscribe((message) => {
+      try {
+        const grid = JSON.parse(message);
+        this.grid = grid.grid;
+        this.liveCode = grid.code;
+      } catch (error) {
+        console.log(error);
+        clearInterval(this.gridRefreshInterval);
+      }
+    });
   }
 
-  generateRandomChars() {
+  generateDefaultTable() {
     this.grid = [];
-    this.randomCharsGenerated = {};
+    this.numOfCharsGenerated = {};
     for (let index = 0; index < 10; index++) {
       const rowOfAlpha = [];
       for (let index = 0; index < 10; index++) {
-        const generatedChar = this.alphabet.charAt(Math.floor(Math.random() * 26));
-        this.randomCharsGenerated[generatedChar] = this.randomCharsGenerated[generatedChar] || 0;
-        this.randomCharsGenerated[generatedChar]++;
-        rowOfAlpha.push(generatedChar);
+       
+        rowOfAlpha.push('');
       }
       this.grid.push(rowOfAlpha);
     }
   }
 
-  getCoordinatesBySystemClock() {
-
-    const utcDateSeconds = new Date().getUTCSeconds();
-    const utcDateSecondsFormatted = utcDateSeconds < 10 ? `0${utcDateSeconds}` : utcDateSeconds;
-    const coordinates: number[][] = [];
-    const firstCoordinate = parseInt(utcDateSecondsFormatted.toString().charAt(0)); 
-    const secondCoordinate = parseInt(utcDateSecondsFormatted.toString().charAt(1)); 
-    coordinates.push([firstCoordinate, secondCoordinate]);
-    coordinates.push([secondCoordinate, firstCoordinate]);
-    console.log(utcDateSecondsFormatted);
-    console.log(coordinates);
-
-    console.log(this.grid);
-    
-    console.log('first', this.grid[coordinates[0][1]][coordinates[0][0]]);
-    console.log('second', this.grid[coordinates[1][1]][coordinates[1][0]]);
-    console.log(this.randomCharsGenerated[this.grid[coordinates[0][1]][coordinates[0][0]]]);
-    console.log(this.randomCharsGenerated[this.grid[coordinates[1][1]][coordinates[1][0]]]);
-    
-    
+  checkConnection() {
+    if (!this.socketService.isConnected()) {
+      this.socketService.connect();
+      this.socketService.socketStatus.subscribe((value) => {
+        if (value) {
+          this.generateGrid();
+        }
+      });
+    } else {
+      this.generateGrid();
+    }
   }
-  
+
+  generateGrid() {
+    clearInterval(this.gridRefreshInterval);
+    try {
+      this.gridRefreshInterval = setInterval(() => {
+        this.socketService.sendMessage('');
+      }, 1000);
+    } catch (error) {
+      clearInterval(this.gridRefreshInterval);
+    }
+  }
+
+  stopGenerating() {
+    clearInterval(this.gridRefreshInterval);
+  }
 }

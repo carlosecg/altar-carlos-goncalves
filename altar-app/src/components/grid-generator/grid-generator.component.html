@@ -1,24 +1,31 @@
 <div class="grid-generator-wrapper">
-    <div class="grid-configurat"></div>
-<div class="grid-wrapper">
-    <table>
-        <thead>
-            <th></th>
-            <th *ngFor="let gridRow of grid; let index=index;">{{ index }}</th>
-        </thead>
-        <tbody>
-            <tr *ngFor="let gridRow of grid; let index=index">
-                <td> <b>{{ index }}</b> </td>
-                <td *ngFor="let gridColumn of gridRow">
-                    {{ gridColumn }}
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div class="grid-letter-counter">
-    <div *ngFor="let letter of randomCharsGenerated | keyvalue" class="counter">
-        <b>{{ letter.key }}</b>: {{ letter.value }}
+    <div class="grid-configuration">
+        <div class="grid-bias-input-wrapper">
+            <label for="bias-value">Character</label>
+            <input type="text" id="bias-value" name="bias-value" placeholder="Character" [(ngModel)]="biasChar">
+        </div>
+        <div class="grid-configuration__options">
+            <button (click)="checkConnection()">Generate 2D Grid</button>
+            <button (click)="stopGenerating()">Stop</button>
+        </div>
     </div>
-</div>
+    <div class="grid-wrapper">
+        <table>
+            <!-- <thead>
+                <th></th>
+                <th *ngFor="let gridRow of grid; let index=index;">{{ index }}</th>
+            </thead> -->
+            <tbody>
+                <tr *ngFor="let gridRow of grid; let index=index">
+                    <!-- <td> <b>{{ index }}</b> </td> -->
+                    <td *ngFor="let gridColumn of gridRow">
+                        {{ gridColumn }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="grid-code-wrapper">
+       Your code: <b>{{ liveCode || '--' }}</b>
+    </div>
 </div>
