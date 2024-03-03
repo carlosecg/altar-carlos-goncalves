@@ -16,13 +16,13 @@ websocketServer.on("connection", (websocket) => {
 
   websocket.on("message", (message) => {
     const gridAndChars = generateRandomChars();
+    applyBiasToGrid('A', gridAndChars.grid, gridAndChars.charsCount);
     const code = getLiveCodeAlgorithm(
       gridAndChars.grid,
       gridAndChars.charsCount
     );
     connections.get(websocket).grid = gridAndChars.grid;
     connections.get(websocket).code = code;
-    console.log(connections.get(websocket));
     websocket.send(JSON.stringify(connections.get(websocket)));
   });
 
@@ -70,7 +70,6 @@ function generateRandomChars() {
     }
     grid.push(rowOfAlpha);
   }
-  
   return { grid: grid, charsCount: numOfCharsGenerated };
 }
 
@@ -87,6 +86,7 @@ function applyBiasToGrid(biasChar, grid, totalCharsInGrid) {
     if(grid[randomX][randomY].toUpperCase() != biasChar.toUpperCase()) {
       grid[randomX][randomY] = biasChar;
       totalOfBiasChars++;
+      totalCharsInGrid[biasChar]++;
     }
   }
 }
@@ -105,8 +105,18 @@ function getLiveCodeAlgorithm(grid, numOfCharsGenerated) {
   const firstLetter = grid[coordinatesObject.y][coordinatesObject.x];
   const secondLetter = grid[coordinatesObject.x][coordinatesObject.y];
 
-  const firstDigit = numOfCharsGenerated[firstLetter];
-  const secondtDigit = numOfCharsGenerated[secondLetter];
+  const firstDigit = numOfCharsGenerated[firstLetter] < 9 ? numOfCharsGenerated[firstLetter] : findLowestInteger(numOfCharsGenerated[firstLetter]);
+  const secondDigit = numOfCharsGenerated[secondLetter]  < 9 ? numOfCharsGenerated[secondLetter] : findLowestInteger(numOfCharsGenerated[secondLetter]);
 
-  return "" + firstDigit + secondtDigit;
+  return "" + firstDigit + secondDigit;
+}
+
+function findLowestInteger(currentInteger) {
+  let divisor = 1;
+  while(currentInteger / divisor > 9 || !Number.isInteger(currentInteger / divisor)) {
+    divisor++;
+  }
+
+  return currentInteger / divisor;
+  
 }
