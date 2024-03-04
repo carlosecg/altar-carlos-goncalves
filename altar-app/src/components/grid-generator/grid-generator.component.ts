@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { WebsocketService } from '../../services/websocket.service';
-import { MessageType } from '../../models/message.model';
 import { GridService } from '../../services/grid.service';
+
 @Component({
   selector: 'app-grid-generator',
   templateUrl: './grid-generator.component.html',
@@ -19,7 +18,7 @@ export class GridGeneratorComponent implements OnInit {
   public generatingGrid!: boolean;
   public biasTimeout: any;
 
-  constructor(private gridService: GridService, private websocket: WebsocketService) {}
+  constructor(private gridService: GridService) {}
 
   ngOnInit(): void {
     this.generateDefaultTable();
@@ -28,13 +27,9 @@ export class GridGeneratorComponent implements OnInit {
       this.liveCode = gridDataUpdate.code;
     });
 
-    this.gridService.generatingStatus.subscribe((generating) => {
-      this.generatingGrid = generating;
+    this.gridService.liveStatus.subscribe((generating) => {
+      this.liveStatus = generating;
     });
-
-    this.websocket.socketStatus.subscribe(status => {
-      this.liveStatus = status;
-    })
   }
 
   generateDefaultTable() {
@@ -53,21 +48,20 @@ export class GridGeneratorComponent implements OnInit {
   }
 
   stopGenerating() {
-    this.gridService.stopAutoUpdate();
+    this.generatingGrid = false;
+    this.gridService.stopUpdate();
   }
 
   generateGrid() {
-    if (this.allowBiasChange) {
-      if (this.gridService.biasCharacterSubject.getValue() !== this.biasChar) {
-        this.gridService.changeBiasInput(this.biasChar);
-        this.allowBiasChange = false;
-        this.biasTimeout = setTimeout(() => {
-          this.allowBiasChange = true;
-        }, 4000);
-      }
-
-      this.gridService.attemptGridGeneration();
+    this.generatingGrid = true;
+    if (this.gridService.biasCharacterSubject.getValue() !== this.biasChar) {
+      this.gridService.changeBiasInput(this.biasChar);
+      this.allowBiasChange = false;
+      this.biasTimeout = setTimeout(() => {
+        this.allowBiasChange = true;
+      }, 4000);
     }
+    this.gridService.generateGrid();
   }
 
   validateBias(newBiasChar: string) {
