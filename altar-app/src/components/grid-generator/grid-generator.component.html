@@ -1,8 +1,8 @@
 <div class="grid-generator-wrapper">
     <div class="grid-configuration">
         <div class="grid-bias-input-wrapper">
-            <label for="bias-value">Character</label>
-            <input type="text" id="bias-value" name="bias-value" placeholder="Character"
+            <label for="biasValue">Character</label>
+            <input #biasValue type="text" id="biasValue" name="biasValue" placeholder="Character"
             [disabled]="!allowBiasChange"
             pattern="^([A-Za-z]|)$"
             [(ngModel)]="biasChar" (ngModelChange)="validateBias($event)">
