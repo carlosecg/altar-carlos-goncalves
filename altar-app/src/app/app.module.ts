@@ -5,11 +5,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GridGeneratorComponent } from '../components/grid-generator/grid-generator.component';
 import { FormsModule } from '@angular/forms';
+import { PaymentsComponent } from '../components/payments/payments.component';
+import { LiveCodeComponent } from '../components/live-code/live-code.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GridGeneratorComponent
+    GridGeneratorComponent,
+    LiveCodeComponent,
+    PaymentsComponent
   ],
   imports: [
     FormsModule,

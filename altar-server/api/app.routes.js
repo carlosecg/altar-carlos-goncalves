@@ -9,7 +9,6 @@ gridRoutes.get("/grid/:character?", (req, res) => {
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
 
-  // Every second update
   const streamId = setInterval(() => {
     console.log("A new connection started");
     const gridAndChars = gridService.generateRandomChars();
@@ -31,7 +30,6 @@ gridRoutes.get("/grid/:character?", (req, res) => {
     );
   }, 1000);
 
-  // Handle client disconnect
   req.on("close", () => {
     console.log("A connection closed");
     clearInterval(streamId);

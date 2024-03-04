@@ -1,0 +1,9 @@
+<div class="grid-status-wrapper">
+    <div class="grid-live-wrapper">
+        <div class="status-indicator" [class.live]="liveStatus"></div>
+        {{ liveStatus ? 'Live' : 'Offline' }}
+    </div>
+    <div class="grid-code-wrapper">
+        Your code: <div class="grid-code"><b>{{ liveCode || '--' }}</b></div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="payments-wrapper">
+    <div class="live-code-wrapper">
+        <app-live-code [liveCode]="liveCode" [liveStatus]="liveStatus"></app-live-code>
+    </div>
+    <div class="payment-options-wrapper">
+        <div class="gen-input-wrapper">
+            <label for="paymentName">Name</label>
+            <input type="text" id="paymentName" name="paymentName">
+        </div>
+        <div class="gen-input-wrapper">
+            <label for="paymentName">Amount</label>
+            <input type="number" id="paymentAmount" name="paymentAmount">
+        </div>
+        <div class="gen-input-wrapper">
+            <button>Add</button>
+        </div>
+    </div>
+    <div class="payments-list">
+        <table>
+            <thead>
+                <th width="60%">Name</th>
+                <th>Amount</th>
+                <th>Code</th>
+                <th>Grid</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let payment of payments">
+                    <td class="payment-cell">{{ payment.name }}</td>
+                    <td>{{ payment.amount }}</td>
+                    <td>{{ payment.code }}</td>
+                    <td>{{ payment.grid }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

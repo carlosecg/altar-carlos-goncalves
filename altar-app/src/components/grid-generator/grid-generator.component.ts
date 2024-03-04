@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GridService } from '../../services/grid.service';
 
 @Component({
@@ -6,29 +6,29 @@ import { GridService } from '../../services/grid.service';
   templateUrl: './grid-generator.component.html',
   styleUrl: './grid-generator.component.scss',
 })
-export class GridGeneratorComponent implements OnInit {
+export class GridGeneratorComponent implements OnInit, OnDestroy {
   public biasChar: string = '';
   public grid: string[][] = [];
+  public liveCode!: number | null;
   /* Used for placeholder only */
   public defaultGridLayout: string[][] = [];
-  public liveCode!: number | null;
   public liveStatus = false;
   public validBiasCharacter = true;
   public allowBiasChange = true;
   public biasTimeout: any;
+  gridDataSubscription: any;
+  liveStatusSubscription: any;
 
   constructor(private gridService: GridService) {}
 
   ngOnInit(): void {
     this.generateDefaultTable();
-    this.gridService.gridDataSubject.subscribe((gridDataUpdate) => {
+    this.gridDataSubscription = this.gridService.gridDataSubject.subscribe((gridDataUpdate) => {
       this.grid = gridDataUpdate.grid;
       this.liveCode = gridDataUpdate.code;
     });
 
-    this.gridService.liveStatus.subscribe((generating) => {
-      console.log('here', generating);
-      
+    this.liveStatusSubscription = this.gridService.liveStatus.subscribe((generating) => {
       this.liveStatus = generating;
     });
   }
@@ -65,5 +65,10 @@ export class GridGeneratorComponent implements OnInit {
 
   validateBias(newBiasChar: string) {
     this.validBiasCharacter = new RegExp(/^([A-Za-z]|)$/).test(newBiasChar);
+  }
+
+  ngOnDestroy() {
+    this.gridDataSubscription.unsubscribe();
+    this.liveStatusSubscription.unsubscribe();
   }
 }
