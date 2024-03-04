@@ -10,9 +10,6 @@ export class GridGeneratorComponent implements OnInit {
   public grid: string[][] = [];
   public liveCode!: string;
   public serverMessages: string[] = [];
-  /* This Record is used to facilitate the counting of each letter displayed on the grid - ex: ['A'] = 5 */
-  public numOfCharsGenerated: Record<string, number> = {};
-  public alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   public gridRefreshInterval!: any;
 
   constructor(private socketService: WebsocketService) {}
@@ -34,7 +31,6 @@ export class GridGeneratorComponent implements OnInit {
 
   generateDefaultTable() {
     this.grid = [];
-    this.numOfCharsGenerated = {};
     for (let index = 0; index < 10; index++) {
       const rowOfAlpha = [];
       for (let index = 0; index < 10; index++) {
