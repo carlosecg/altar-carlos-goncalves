@@ -9,7 +9,7 @@
         </div>
         <div class="grid-configuration__options">
             <button (click)="generateGrid()" [disabled]="!allowBiasChange || !validBiasCharacter">Generate 2D Grid</button>
-            <button (click)="stopGenerating()" [disabled]="!generatingGrid">Stop</button>
+            <button (click)="stopGenerating()" [disabled]="!liveStatus">Stop</button>
         </div>
     </div>
     <div class="grid-wrapper">

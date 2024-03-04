@@ -15,7 +15,6 @@ export class GridGeneratorComponent implements OnInit {
   public liveStatus = false;
   public validBiasCharacter = true;
   public allowBiasChange = true;
-  public generatingGrid!: boolean;
   public biasTimeout: any;
 
   constructor(private gridService: GridService) {}
@@ -28,6 +27,8 @@ export class GridGeneratorComponent implements OnInit {
     });
 
     this.gridService.liveStatus.subscribe((generating) => {
+      console.log('here', generating);
+      
       this.liveStatus = generating;
     });
   }
@@ -48,12 +49,10 @@ export class GridGeneratorComponent implements OnInit {
   }
 
   stopGenerating() {
-    this.generatingGrid = false;
     this.gridService.stopUpdate();
   }
 
   generateGrid() {
-    this.generatingGrid = true;
     if (this.gridService.biasCharacterSubject.getValue() !== this.biasChar) {
       this.gridService.changeBiasInput(this.biasChar);
       this.allowBiasChange = false;

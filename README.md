@@ -16,3 +16,4 @@ Angular version v17.2.2
 To initialize the grid, press "Generate 2D Grid" for the first time (You can insert a bias character from the start).
 Everytime a bias character is changed, a 4 second timeout is applied to the character input and grid generate button.
 To stop the EventSource, press the Stop button
+The bias character is being enforced through regex both in the server-side as the app side

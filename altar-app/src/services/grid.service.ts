@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { GridData } from '../models/grid.model';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -22,17 +23,30 @@ export class GridService {
   }
 
   generateGrid() {
-    this.liveStatus.next(true);
     if(this.eventSource) {
       this.eventSource.close();
     }
-    this.eventSource = new EventSource(`http://localhost:3000/grid/${this.biasCharacterSubject.getValue()}`);
+    this.eventSource = new EventSource(`${environment.apiUrl}/grid/${this.biasCharacterSubject.getValue()}`);
+    this.liveStatus.next(true);
+    this.eventSource.onopen = () => {
+      this.ngZone.run(() => {
+        this.liveStatus.next(true);
+      });
+    }
+
     this.eventSource.onmessage = (event) => {
       const gridData: GridData = JSON.parse(event.data);
       this.ngZone.run(() => {
         this.gridDataSubject.next(gridData);
-      })
+      });
     };
+
+    this.eventSource.onerror = (event) => {
+      this.eventSource.close();
+      this.ngZone.run(() => {
+        this.liveStatus.next(false);
+      });
+    }
   }
 
   stopUpdate() {
