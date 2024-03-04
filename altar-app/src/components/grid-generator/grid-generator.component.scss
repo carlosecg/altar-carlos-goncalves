@@ -19,10 +19,6 @@ td {
     vertical-align: middle;
     text-align: center;
     height: 60px;
-    /* Remove if Y indicators get deleted */
-    // &:first-child {
-    //     border: none;
-    // }
 }
 
 .grid-configuration {
@@ -36,7 +32,7 @@ td {
 
     display: flex;
     gap: 6px;
-    
+
     & button {
         height: 40px;
         background-color: var(--primary-color);
@@ -48,7 +44,12 @@ td {
         text-transform: uppercase;
         cursor: pointer;
 
-        &:hover {
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.75;
+        }
+
+        &:hover:not(:disabled) {
             opacity: 0.9;
         }
     }
@@ -79,6 +80,41 @@ td {
         outline: 0;
         border-radius: 6px;
         border: 1px solid var(--primary-color);
+
+        &.ng-invalid {
+            border-color: red;
+        }
+    }
+}
+
+.grid-status-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.grid-live-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    gap: 4px;
+    padding: 0 32px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 30px;
+    background-color: red;
+
+    &.live {
+        background-color: green;
     }
 }
 
@@ -87,7 +123,8 @@ td {
     justify-content: center;
     align-items: center;
     margin: auto;
-    padding: 16px 32px;
+    gap: 8px;
+    padding: 16px 48px;
     text-transform: uppercase;
     border: 1px solid var(--primary-color);
 }

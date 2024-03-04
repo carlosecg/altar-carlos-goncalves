@@ -2,30 +2,44 @@
     <div class="grid-configuration">
         <div class="grid-bias-input-wrapper">
             <label for="bias-value">Character</label>
-            <input type="text" id="bias-value" name="bias-value" placeholder="Character" [(ngModel)]="biasChar">
+            <input type="text" id="bias-value" name="bias-value" placeholder="Character"
+            [disabled]="!allowBiasChange"
+            pattern="^([A-Za-z]|)$"
+            [(ngModel)]="biasChar" (ngModelChange)="validateBias($event)">
         </div>
         <div class="grid-configuration__options">
-            <button (click)="checkConnection()">Generate 2D Grid</button>
-            <button (click)="stopGenerating()">Stop</button>
+            <button (click)="generateGrid()" [disabled]="!allowBiasChange || !validBiasCharacter">Generate 2D Grid</button>
+            <button (click)="stopGenerating()" [disabled]="!generatingGrid">Stop</button>
         </div>
     </div>
     <div class="grid-wrapper">
         <table>
-            <!-- <thead>
-                <th></th>
-                <th *ngFor="let gridRow of grid; let index=index;">{{ index }}</th>
-            </thead> -->
             <tbody>
-                <tr *ngFor="let gridRow of grid; let index=index">
-                    <!-- <td> <b>{{ index }}</b> </td> -->
-                    <td *ngFor="let gridColumn of gridRow">
-                        {{ gridColumn }}
-                    </td>
-                </tr>
+                @if(grid && grid.length > 0) {
+                    <tr *ngFor="let gridRow of grid; let index=index">
+                        <!-- <td> <b>{{ index }}</b> </td> -->
+                        <td *ngFor="let gridColumn of gridRow">
+                            {{ gridColumn }}
+                        </td>
+                    </tr>
+                }@else {
+                    <tr *ngFor="let gridRow of defaultGridLayout; let index=index">
+                        <!-- <td> <b>{{ index }}</b> </td> -->
+                        <td *ngFor="let gridColumn of gridRow">
+                            {{ gridColumn }}
+                        </td>
+                    </tr> 
+                }
             </tbody>
         </table>
     </div>
-    <div class="grid-code-wrapper">
-       Your code: <b>{{ liveCode || '--' }}</b>
+    <div class="grid-status-wrapper">
+        <div class="grid-live-wrapper">
+            <div class="status-indicator" [class.live]="liveStatus"></div>
+            {{ liveStatus ? 'Live' : 'Offline' }}
+        </div>
+        <div class="grid-code-wrapper">
+            Your code: <div class="grid-code"><b>{{ liveCode || '--' }}</b></div>
+        </div>
     </div>
 </div>

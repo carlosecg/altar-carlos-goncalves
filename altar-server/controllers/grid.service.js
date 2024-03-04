@@ -1,6 +1,8 @@
 const { findLowestInteger } = require("../helpers/utils");
 
-function generateRandomChars() {
+class GridService {
+  
+ generateRandomChars() {
   const grid = [];
   const numOfCharsGenerated = {};
   const alphabet = process.env.GRID_ALPHABET || "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -21,12 +23,7 @@ function generateRandomChars() {
   return { grid: grid, charsCount: numOfCharsGenerated };
 }
 
-function applyBiasToGrid(
-  biasChar,
-  grid,
-  totalCharsInGrid,
-  biasAmount = process.env.BIAS_AMOUNT || 20
-) {
+ applyBiasToGrid(biasChar, grid, totalCharsInGrid, biasAmount = process.env.BIAS_AMOUNT || 20) {
   /* Takes into consideration that the grid might already have some x amount of the bias character
       subtracting the 20 (20% of 100) by the current number of bias chars in the grid */
   let totalOfBiasChars = totalCharsInGrid[biasChar.toUpperCase()];
@@ -37,15 +34,19 @@ function applyBiasToGrid(
 
     /* Prevents the algorithm from replacing an already matching coordinate */
     if (grid[randomX][randomY].toUpperCase() != biasChar.toUpperCase()) {
-      grid[randomX][randomY] = biasChar;
-      totalOfBiasChars++;
       /* Update number of chars registered in count hash table */
       totalCharsInGrid[biasChar]++;
+      /* Decrease the replaced letter */
+      if(totalCharsInGrid[grid[randomX][randomY]]) {
+        totalCharsInGrid[grid[randomX][randomY]]--;
+      } 
+      grid[randomX][randomY] = biasChar;
+      totalOfBiasChars++;
     }
   }
 }
 
-function getLiveCodeAlgorithm(grid, numOfCharsGenerated) {
+ getLiveCodeAlgorithm(grid, numOfCharsGenerated) {
   const utcDateSeconds = new Date().getUTCSeconds();
   /* Add leading zero to seconds */
   const utcDateSecondsFormatted =
@@ -66,4 +67,6 @@ function getLiveCodeAlgorithm(grid, numOfCharsGenerated) {
   return "" + firstDigit + secondDigit;
 }
 
-module.exports = { generateRandomChars, getLiveCodeAlgorithm, applyBiasToGrid };
+}
+
+module.exports = GridService;

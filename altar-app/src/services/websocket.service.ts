@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
+import { ClientMessage } from '../models/message.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class WebsocketService {
     return this.socket.readyState === (WebSocket.CLOSED || WebSocket.CLOSING) ? false : true;
   }
 
-  sendMessage(message: string): void {
-    this.socket.send(message);
+  sendMessage(message: ClientMessage): void {
+    this.socket.send(JSON.stringify(message));
   }
 }
