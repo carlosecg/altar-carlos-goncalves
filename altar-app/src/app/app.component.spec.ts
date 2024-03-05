@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { GridGeneratorComponent } from '../components/grid-generator/grid-generator.component';
+import { TopnavComponent } from '../components/topnav/topnav.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -11,7 +12,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        GridGeneratorComponent
+        TopnavComponent,
       ],
     }).compileComponents();
   });

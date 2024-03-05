@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { GridData } from '../../models/grid.model';
+import { LiveCodeComponent } from '../live-code/live-code.component';
 
 describe('GridGeneratorComponent', () => {
   let component: GridGeneratorComponent;
@@ -19,7 +20,7 @@ describe('GridGeneratorComponent', () => {
     ]);
 
     TestBed.configureTestingModule({
-      declarations: [GridGeneratorComponent],
+      declarations: [GridGeneratorComponent, LiveCodeComponent],
       imports: [FormsModule],
       providers: [{ provide: GridService, useValue: gridServiceSpyObj }],
     });
