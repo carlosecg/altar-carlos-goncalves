@@ -1,0 +1,35 @@
+.grid-generator-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    gap: 50px;
+    max-width: 950px;
+    padding: 50px;
+    box-sizing: border-box;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+
+td {
+    border: 1px solid gray;
+    vertical-align: middle;
+    text-align: center;
+    height: 60px;
+}
+
+.grid-configuration {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+
+.grid-configuration__options {
+
+    display: flex;
+    gap: 6px;
+}

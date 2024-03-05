@@ -1,0 +1,39 @@
+<div class="grid-generator-wrapper">
+    <div class="grid-configuration">
+        <div class="gen-input-wrapper">
+            <label for="biasValue">Character</label>
+            <input #biasValue type="text" id="biasValue" name="biasValue" placeholder="Character"
+                [disabled]="!allowBiasChange" pattern="^([A-Za-z]|)$" [(ngModel)]="biasChar"
+                (ngModelChange)="validateBias($event)">
+        </div>
+        <div class="grid-configuration__options">
+            <button (click)="generateGrid()" [disabled]="!allowBiasChange || !validBiasCharacter">Generate 2D
+                Grid</button>
+            <button (click)="stopGenerating()" [disabled]="!liveStatus">Stop</button>
+        </div>
+    </div>
+    <div class="grid-wrapper">
+        <table>
+            <tbody>
+                @if(grid && grid.length > 0) {
+                <tr *ngFor="let gridRow of grid; let index=index">
+                    <!-- <td> <b>{{ index }}</b> </td> -->
+                    <td *ngFor="let gridColumn of gridRow">
+                        {{ gridColumn }}
+                    </td>
+                </tr>
+                }@else {
+                <tr *ngFor="let gridRow of defaultGridLayout; let index=index">
+                    <!-- <td> <b>{{ index }}</b> </td> -->
+                    <td *ngFor="let gridColumn of gridRow">
+                        {{ gridColumn }}
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="grid-live-wrapper">
+        <app-live-code [liveCode]="liveCode" [liveStatus]="liveStatus"></app-live-code>
+    </div>
+</div>

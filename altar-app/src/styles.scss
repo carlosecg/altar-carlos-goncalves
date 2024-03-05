@@ -1,0 +1,62 @@
+/* You can add global styles to this file, and also import other style files */
+
+* {
+    font-family: sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+:root {
+    --primary-color: #8a9da4;
+    --primary-color-contrast: white;
+}
+
+.gen-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+}
+
+
+label {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+input {
+    padding: 0 10px;
+    height: 45px;
+    outline: 0;
+    border-radius: 6px;
+    border: 1px solid var(--primary-color);
+
+    &.ng-invalid {
+        border-color: red;
+    }
+}
+
+button {
+    height: 45px;
+    background-color: var(--primary-color);
+    font-weight: bold;
+    color: var(--primary-color-contrast);
+    border: none;
+    border-radius: 6px;
+    padding: 0 25px;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.75;
+    }
+
+    &:hover:not(:disabled) {
+        opacity: 0.9;
+    }
+}

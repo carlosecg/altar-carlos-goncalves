@@ -1,0 +1,42 @@
+
+.grid-status-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.grid-live-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    gap: 4px;
+    padding: 0 32px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 30px;
+    background-color: red;
+
+    &.live {
+        background-color: green;
+    }
+}
+
+.grid-code-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    gap: 8px;
+    padding: 16px 48px;
+    text-transform: uppercase;
+    border: 1px solid var(--primary-color);
+}
