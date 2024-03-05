@@ -2,18 +2,21 @@
     <div class="live-code-wrapper">
         <app-live-code [liveCode]="liveCode" [liveStatus]="liveStatus"></app-live-code>
     </div>
-    <div class="payment-options-wrapper">
+    <div class="payments-options-wrapper">
         <div class="gen-input-wrapper">
             <label for="paymentName">Name</label>
-            <input type="text" id="paymentName" name="paymentName">
+            <input type="text" id="paymentName" name="paymentName" [(ngModel)]="paymentName" [disabled]="!liveStatus">
         </div>
         <div class="gen-input-wrapper">
             <label for="paymentName">Amount</label>
-            <input type="number" id="paymentAmount" name="paymentAmount">
+            <input type="number" id="paymentAmount" name="paymentAmount" [(ngModel)]="paymentAmount" [disabled]="!liveStatus">
         </div>
         <div class="gen-input-wrapper">
-            <button>Add</button>
+            <button (click)="addPayment()" [disabled]="!liveStatus || !paymentName || !paymentAmount">Add</button>
         </div>
+    </div>
+    <div *ngIf="!liveStatus" class="payments-offline-disclaimer">
+        You must be Live to add payments. <div class="payments-grid-starter" (click)="startGrid()">Start generator</div>
     </div>
     <div class="payments-list">
         <table>
@@ -28,7 +31,7 @@
                     <td class="payment-cell">{{ payment.name }}</td>
                     <td>{{ payment.amount }}</td>
                     <td>{{ payment.code }}</td>
-                    <td>{{ payment.grid }}</td>
+                    <td>{{ 100 }}</td>
                 </tr>
             </tbody>
         </table>

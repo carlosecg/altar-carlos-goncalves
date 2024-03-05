@@ -8,14 +8,20 @@
     box-sizing: border-box;
 }
 
-.payment-options-wrapper {
+.payments-options-wrapper {
     display: flex;
     gap: 25px;
     align-items: flex-end;
 }
 
-.payments-list {
+.payments-offline-disclaimer {
+    display: flex;
+    gap: 4px;
+}
 
+.payments-grid-starter {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 table {

@@ -7,16 +7,20 @@ import { GridGeneratorComponent } from '../components/grid-generator/grid-genera
 import { FormsModule } from '@angular/forms';
 import { PaymentsComponent } from '../components/payments/payments.component';
 import { LiveCodeComponent } from '../components/live-code/live-code.component';
+import { HttpClientModule } from '@angular/common/http';
+import { TopnavComponent } from '../components/topnav/topnav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    TopnavComponent,
     GridGeneratorComponent,
     LiveCodeComponent,
     PaymentsComponent
   ],
   imports: [
     FormsModule,
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule
   ],
